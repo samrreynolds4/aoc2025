@@ -10,24 +10,28 @@ def beam_down(x, y, grid: list[list[str]]) -> int:
     if down_y >= len(grid) or x < 0 or x >= len(grid[down_y]):
         return 0
     if grid[down_y][x] == "^":
-        split(x, y, grid)
-        return 1
+        return split(x, y, grid)
+        # return 1
 
     grid[down_y][x] = "|"
     return 0
 
 
-def split(x, y, grid: list[list[str]]):
+def split(x, y, grid: list[list[str]]) -> int:
     split_y = y + 1
     split_x1 = x - 1
     split_x2 = x + 1
+    splits = 0
 
     if split_y >= len(grid):
-        return
+        return splits
     if split_x1 >= 0:
+        splits += 1
         grid[split_y][split_x1] = "|"
     if split_x2 < len(grid[split_y]):
+        splits += 1
         grid[split_y][split_x2] = "|"
+    return splits
 
 
 def get(x, y, grid: list[str]) -> str:
@@ -44,7 +48,7 @@ def print_grid(grid: list[list[str]]):
 def main():
     data = get_file_data()
     grid = [list(line) for line in data.split("\n")]
-    splits = 1
+    splits = 0
     for y in range(len(grid)):
         for x in range(len(grid[y])):
             if grid[y][x] == "S" or grid[y][x] == "|":
